@@ -17,6 +17,7 @@ public strictfp class RobotPlayer {
      * these variables are static, in Battlecode they aren't actually shared between your robots.
      */
     static int turnCount = 0;
+    static int minerCount = 0;
 
     /**
      * A random number generator.
@@ -109,11 +110,12 @@ public strictfp class RobotPlayer {
     static void runArchon(RobotController rc) throws GameActionException {
         // Pick a direction to build in.
         Direction dir = directions[rng.nextInt(directions.length)];
-        if (rng.nextBoolean()) {
+        if (rng.nextBoolean() && minerCount < 60) {
             // Let's try to build a miner.
             rc.setIndicatorString("Trying to build a miner");
             if (rc.canBuildRobot(RobotType.MINER, dir)) {
                 rc.buildRobot(RobotType.MINER, dir);
+                minerCount = minerCount + 1;
             }
         } else {
             // Let's try to build a soldier.
