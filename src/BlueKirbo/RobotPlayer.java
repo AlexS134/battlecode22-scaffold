@@ -1,6 +1,8 @@
 package BlueKirbo;
 
 import battlecode.common.*;
+import com.sun.org.apache.xpath.internal.functions.FuncFalse;
+import org.apache.commons.io.filefilter.FalseFileFilter;
 
 import java.util.Random;
 
@@ -112,27 +114,41 @@ public strictfp class RobotPlayer {
     static void runArchon(RobotController rc) throws GameActionException {
         // Pick a direction to build in.
         Direction dir = directions[rng.nextInt(directions.length)];
-        if (rng.nextBoolean() && soldierCount < 120 ) {
+        if (rng.nextBoolean() && rc.canBuildRobot(RobotType.LABORATORY, dir) == false && rc.canBuildRobot(RobotType.WATCHTOWER, dir) == false && rc.canBuildRobot(RobotType.SOLDIER ,dir) == false) {
             // Let's try to build a miner.
             rc.setIndicatorString("Trying to build a miner");
             if (rc.canBuildRobot(RobotType.MINER, dir)) {
                 rc.buildRobot(RobotType.MINER, dir);
                 minerCount = minerCount + 1;
 
+
+
+            }
+            else if (rng.nextBoolean() && rc.canBuildRobot(RobotType)) {
+                // Let's try to build a soldier.
+                rc.setIndicatorString("Trying to build a soldier");
+                if (rc.canBuildRobot(RobotType.SOLDIER, dir)) {
+                    rc.buildRobot(RobotType.SOLDIER, dir);
+                    soldierCount = soldierCount + 1;
+                }
+            }
+            else if (rng.nextBoolean()) {
+                // Let's try to build a soldier.
+                rc.setIndicatorString("Trying to build a laboratory");
+                if (rc.canBuildRobot(RobotType.LABORATORY, dir));
+                    rc.buildRobot(RobotType.LABORATORY, dir);
+            }
+            else if (rng.nextBoolean()) {
+                // Let's try to build a builder.
+                rc.setIndicatorString("Trying to build a builder");
+                if (rc.canBuildRobot(RobotType.BUILDER, dir));
+                    rc.buildRobot(RobotType.BUILDER, dir);
+            }
+            else if (rng.nextBoolean()) {
+                //Let's try and build a Watchtower
             }
 
-        } else {
-            // Let's try to build a soldier.
-            rc.setIndicatorString("Trying to build a soldier");
-            if (rc.canBuildRobot(RobotType.SOLDIER, dir)) {
-                rc.buildRobot(RobotType.SOLDIER, dir);
-                soldierCount = soldierCount + 1;
-            }
         }
-        if (minerCount == 60) {
-            soldierCount = 0;
-        }
-
     }
 
     /**
