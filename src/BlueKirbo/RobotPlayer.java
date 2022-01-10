@@ -19,8 +19,9 @@ public strictfp class RobotPlayer {
      * these variables are static, in Battlecode they aren't actually shared between your robots.
      */
     static int turnCount = 0;
-    static int soldierCount = 0;
-    static int minerCount = 0;
+    static int archonCount = 0;
+
+
 
 
     /**
@@ -114,38 +115,50 @@ public strictfp class RobotPlayer {
     static void runArchon(RobotController rc) throws GameActionException {
         // Pick a direction to build in.
         Direction dir = directions[rng.nextInt(directions.length)];
-        if (rng.nextBoolean() && rc.canBuildRobot(RobotType.LABORATORY, dir) == false && rc.canBuildRobot(RobotType.WATCHTOWER, dir) == false && rc.canBuildRobot(RobotType.SOLDIER ,dir) == false) {
+        if (rng.nextBoolean()) {
             // Let's try to build a miner.
             rc.setIndicatorString("Trying to build a miner");
             if (rc.canBuildRobot(RobotType.MINER, dir)) {
                 rc.buildRobot(RobotType.MINER, dir);
-                minerCount = minerCount + 1;
+
 
 
 
             }
-            else if (rng.nextBoolean() && rc.canBuildRobot(RobotType)) {
+        else if (rng.nextBoolean()) {
                 // Let's try to build a soldier.
                 rc.setIndicatorString("Trying to build a soldier");
                 if (rc.canBuildRobot(RobotType.SOLDIER, dir)) {
                     rc.buildRobot(RobotType.SOLDIER, dir);
-                    soldierCount = soldierCount + 1;
+
                 }
             }
-            else if (rng.nextBoolean()) {
-                // Let's try to build a soldier.
-                rc.setIndicatorString("Trying to build a laboratory");
-                if (rc.canBuildRobot(RobotType.LABORATORY, dir));
-                    rc.buildRobot(RobotType.LABORATORY, dir);
+        else if (rng.nextBoolean()) {
+            //Let's try to build a watchtower.
+            rc.setIndicatorString("Trying to build a watchtower");
+            if (rc.canBuildRobot((RobotType.WATCHTOWER), dir)) {
+                rc.buildRobot(RobotType.WATCHTOWER, dir);
+
             }
-            else if (rng.nextBoolean()) {
-                // Let's try to build a builder.
-                rc.setIndicatorString("Trying to build a builder");
-                if (rc.canBuildRobot(RobotType.BUILDER, dir));
-                    rc.buildRobot(RobotType.BUILDER, dir);
-            }
-            else if (rng.nextBoolean()) {
-                //Let's try and build a Watchtower
+        }
+        else if (rng.nextBoolean()) {
+            // Let's try to build a laboratory.
+            rc.setIndicatorString("Trying to build a laboratory");
+            if (rc.canBuildRobot(RobotType.LABORATORY, dir));
+                rc.buildRobot(RobotType.LABORATORY, dir);
+        }
+        else if (rng.nextBoolean()) {
+            // Let's try to build a builder.
+            rc.setIndicatorString("Trying to build a builder");
+            if (rc.canBuildRobot(RobotType.BUILDER, dir));
+                rc.buildRobot(RobotType.BUILDER, dir);
+        }
+        else if (rng.nextBoolean()) {
+            //Let's try and build a Watchtower
+            rc.setIndicatorString("Trying to build a watchtower");
+            if (rc.canBuildRobot(RobotType.WATCHTOWER, dir));
+                rc.buildRobot(RobotType.WATCHTOWER, dir);
+
             }
 
         }
