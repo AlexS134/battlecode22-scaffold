@@ -19,7 +19,7 @@ public strictfp class RobotPlayer {
      * these variables are static, in Battlecode they aren't actually shared between your robots.
      */
     static int turnCount = 0;
-    static int archonCount = 0;
+
 
 
 
@@ -129,7 +129,7 @@ public strictfp class RobotPlayer {
                 // Let's try to build a soldier.
                 rc.setIndicatorString("Trying to build a soldier");
                 if (rc.canBuildRobot(RobotType.SOLDIER, dir)) {
-                    rc.buildRobot(RobotType.SOLDIER, dir);
+                    rc.buildRobot(RobotType.SOLDIER, dir );
 
                 }
             }
@@ -216,4 +216,15 @@ public strictfp class RobotPlayer {
             System.out.println("I moved!");
         }
     }
+
+    static void RunLaboratory(RobotController rc) throws GameActionException {
+        //Try to transmute
+        int radius = rc.getType().actionRadiusSquared;
+        if (rc.canTransmute()) {
+            rc.transmute();
+        }
+
+    }
+
+
 }
