@@ -1,6 +1,7 @@
 package examplefuncsplayer;
 
 import battlecode.common.*;
+
 import java.util.Random;
 
 /**
@@ -16,6 +17,19 @@ public strictfp class RobotPlayer {
      * these variables are static, in Battlecode they aren't actually shared between your robots.
      */
     static int turnCount = 0;
+    static int minerCount = 0;
+    static int soldierCount = 0;
+    static int labCount = 0;
+    static int watchCount = 0;
+
+    public static int getMinerCount() {
+        if (minerCount == 80 && soldierCount == 120) {
+            minerCount = 0;
+            soldierCount = 0;
+        }
+
+        return (0);
+    }
 
     /**
      * A random number generator.
@@ -111,15 +125,47 @@ public strictfp class RobotPlayer {
         if (rng.nextBoolean()) {
             // Let's try to build a miner.
             rc.setIndicatorString("Trying to build a miner");
-            if (rc.canBuildRobot(RobotType.MINER, dir)) {
+            if (rc.canBuildRobot(RobotType.MINER, dir) && minerCount < 80) {
                 rc.buildRobot(RobotType.MINER, dir);
+                minerCount ++;
+
+
+
+
             }
-        } else {
-            // Let's try to build a soldier.
-            rc.setIndicatorString("Trying to build a soldier");
-            if (rc.canBuildRobot(RobotType.SOLDIER, dir)) {
-                rc.buildRobot(RobotType.SOLDIER, dir);
+        else if (rng.nextBoolean()) {
+                // Let's try to build a soldier.
+                rc.setIndicatorString("Trying to build a soldier");
+                if (rc.canBuildRobot(RobotType.SOLDIER, dir) && soldierCount < 120) {
+                    rc.buildRobot(RobotType.SOLDIER, dir );
+                    soldierCount ++;
+                }
             }
+        else if (rng.nextBoolean()) {
+            //Let's try to build a watchtower.
+            rc.setIndicatorString("Trying to build a watchtower");
+            if (rc.canBuildRobot((RobotType.WATCHTOWER), dir)) {
+                rc.buildRobot(RobotType.WATCHTOWER, dir);
+                watchCount ++;
+            }
+        }
+        else if (rng.nextBoolean()) {
+            // Let's try to build a laboratory.
+            rc.setIndicatorString("Trying to build a laboratory");
+            if (rc.canBuildRobot(RobotType.LABORATORY, dir));
+                rc.buildRobot(RobotType.LABORATORY, dir);
+                labCount ++;
+        }
+
+        else if (rng.nextBoolean()) {
+            //Let's try and build a Watchtower
+            rc.setIndicatorString("Trying to build a watchtower");
+            if (rc.canBuildRobot(RobotType.WATCHTOWER, dir));
+                rc.buildRobot(RobotType.WATCHTOWER, dir);
+                watchCount ++;
+
+            }
+
         }
     }
 
@@ -175,4 +221,28 @@ public strictfp class RobotPlayer {
             System.out.println("I moved!");
         }
     }
+
+    static void RunLaboratory(RobotController rc) throws GameActionException {
+        //Try to transmute
+        int radius = rc.getType().actionRadiusSquared;
+        if (rc.canTransmute()) {
+            rc.transmute();
+        }
+
+    }
+
+    static void RunWatchtower(RobotController rc) throws GameActionException {
+        //Try to defend
+        int radius = rc.getType().actionRadiusSquared;
+        Team opponent = rc.getTeam().opponent();
+        RobotInfo[] enemies = rc.senseNearbyRobots(radius, opponent);
+        if (enemies.length > 0) {
+            MapLocation toAttack = enemies[0].location;
+            if (rc.canAttack(toAttack)) {
+                rc.attack(toAttack);
+            }
+        }
+    }
+
+
 }
